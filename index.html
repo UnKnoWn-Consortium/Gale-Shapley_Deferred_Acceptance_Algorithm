@@ -26,7 +26,8 @@
     <p>Number of Women : <input id="numWoman" type="number" value=3 min=2 step=1></p>
   </div>
   <div id="prefList">
-  	<div class="pref man">Preference Order for Man 1 : <br>
+  	<fieldset class="pref man">
+      <legend>Preference Order for Man 1 : </legend>
   	  <select>
         <option value=""></option>
         <option value="1">Woman 1</option>
@@ -47,8 +48,9 @@
         <option value="2">Woman 2</option>
         <option value="3" selected>Woman 3</option>
       </select>
-    </div>
-    <div class="pref man">Preference Order for Man 2 : <br>
+    </fieldset>
+    <fieldset class="pref man">
+      <legend>Preference Order for Man 2 : </legend>
   	  <select>
         <option value=""></option>
         <option value="1" selected>Woman 1</option>
@@ -69,8 +71,9 @@
         <option value="2">Woman 2</option>
         <option value="3" selected>Woman 3</option>
       </select>
-    </div>
-    <div class="pref man">Preference Order for Man 3 : <br>
+    </fieldset>
+    <fieldset class="pref man">
+      <legend>Preference Order for Man 3 : </legend>
   	  <select>
         <option value=""></option>
         <option value="1" selected>Woman 1</option>
@@ -91,8 +94,9 @@
         <option value="2">Woman 2</option>
         <option value="3" selected>Woman 3</option>
       </select>
-    </div>
-    <div class="pref woman">Preference Order for Woman 1 : <br>
+    </fieldset>
+    <fieldset class="pref woman">
+      <legend>Preference Order for Woman 1 : </legend>
       <select>
         <option value=""></option>
         <option value="1" selected>Man 1</option>
@@ -113,8 +117,9 @@
         <option value="2">Man 2</option>
         <option value="3" selected>Man 3</option>
       </select>
-    </div>
-    <div class="pref woman">Preference Order for Woman 2 : <br>
+    </fieldset>
+    <fieldset class="pref woman">
+      <legend>Preference Order for Woman 2 : </legend>
       <select>
         <option value=""></option>
         <option value="1">Man 1</option>
@@ -135,8 +140,9 @@
         <option value="2" selected>Man 2</option>
         <option value="3">Man 3</option>
       </select>
-    </div>
-    <div class="pref woman">Preference Order for Woman 3 : <br>
+    </fieldset>
+    <fieldset class="pref woman">
+      <legend>Preference Order for Woman 3 : </legend>
       <select>
         <option value=""></option>
         <option value="1" selected>Man 1</option>
@@ -157,7 +163,7 @@
         <option value="2">Man 2</option>
         <option value="3" selected>Man 3</option>
       </select>
-    </div>
+    </fieldset>
   </div>
   <div class="inputControl">
     <button id="default"> Load Default</button>
@@ -183,6 +189,7 @@
 </fieldset>
 <fieldset id="graph">
   <legend>Graphical Representation</legend>
+  <div id="iteration">ITERATION 00</div>
   <div id="graphContainer"></div>
 </fieldset>
 </div>
@@ -240,6 +247,13 @@
 	worker.addEventListener("message", function(e){
 		$("#output").val($("#output").val() + "\n" + e.data.output);
 		outputArea.scrollTop = outputArea.scrollHeight;
+		// Update counter
+		if (e.data.steps !== undefined){
+			var steps = e.data.steps;
+			if (steps.length < 2){steps = "0" + steps;}
+			$('fieldset#graph #iteration').html("ITERATION " + steps);
+		}
+		// Update graph
 		var temp_edges = [];
 		if (e.data.edges !== undefined){
 			for (var i = 0; i < e.data.edges.length; i++){
@@ -278,7 +292,7 @@
 		manArray = prefM;
 		womanArray = prefF;
 		worker.postMessage({status:"setup", Mode: mode, ListM: manArray, ListF: womanArray});
-		
+		$('fieldset#graph #iteration').html("ITERATION 00");
 	});
 	$('fieldset#inputField input#cmn-toggle').on('change', function(){
 		if (this.checked) {mode = "F";$('fieldset#inputField .switch h3').html("Woman Proposing Mode");}else {mode = "M";$('fieldset#inputField .switch h3').html("Man Proposing Mode");}
@@ -307,7 +321,7 @@
 		var temp = classT[0].toUpperCase() + classT.slice(1);
 		var optionT = '<option value=""></option>';
 		for (var i = 1; i < count + 1; i++){
-			divT += '<div class="pref ' + classT + '">Preference Order for ' + temp + ' '+ i +' : <br> </div>';
+			divT += '<fieldset class="pref ' + classT + '"><legend>Preference Order for ' + temp + ' '+ i +' : </legend></fieldset>';
 			selectT += ' > <select></select>';
 			optionT += '<option value="'+ i +'">'+ temp +' ' + i + '</option>';
 		}
@@ -323,6 +337,7 @@
 		$('.pref.woman select').append(recastOptionsM);
 	}
 	function updateGraph(countM, countF, index){
+		// On change in number of man or woman agents, update the network and index
 		var data = {};
 		data.nodes = [];
 		data.edges = [];

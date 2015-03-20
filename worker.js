@@ -3,7 +3,7 @@ var g; // Define a global variable for assignment
 onmessage = function(e) {
 	var date = new Date();
 	var command = e.data.status;
-	postMessage(date.toISOString() + " WORKER : Command " + command.toUpperCase() + " received from main script");
+	postMessage({output: date.toISOString() + " WORKER : Command " + command.toUpperCase() + " received from main script"});
 	console.log(date.toISOString() + " WORKER : Command " + command.toUpperCase() + " received from main script");
 	importScripts("objects.js");
 	if (command == "setup"){

@@ -32,6 +32,7 @@ World.prototype.reportBuffer = function(description){
 	// Report proposalBuffer of all instances
 	var returnObj = {};
 	returnObj.edges = [];
+	returnObj.steps = String(this.steps + 1);
 	if (description !== undefined){
 		var upperDesc = description.toUpperCase();
 	}else{upperDesc = "";}
@@ -54,6 +55,7 @@ World.prototype.reportBuffer = function(description){
 	return returnObj;
 }
 World.prototype.reportResult = function(){
+	// Report the maching result
 	var returnObj = {};
 	this.matchedPairs = [];
 	this.lonelyMen = [];
@@ -90,6 +92,7 @@ World.prototype.reportResult = function(){
 	return returnObj;
 }
 World.prototype.checkStopCondition = function(){
+	// Determine if the stop condition is fulfilled and return boolean value accordingly
 	var temp = [];
 	if (this.mode == "M"){
 		for (var i = 0; i < this.manInstances.length; i++){
@@ -202,8 +205,8 @@ Man.prototype = Object.create(Agent.prototype);
 Man.prototype.constructor = Man;
 Man.prototype.imposePreference = function(){ 
 	// Supersede the preference list with a list of Woman instances in descending order
-	for (var i = 0; i < this.Preference.length; i++){
-		this.prefList.push(this.world.womanInstances[Number(this.Preference[i])-1]);
+	if (!(this.Preference.length == 1 && this.Preference[0] == "")){
+		for (var i = 0; i < this.Preference.length; i++){this.prefList.push(this.world.womanInstances[Number(this.Preference[i])-1]);}
 	}
 }
 Man.prototype.toString = function(){
@@ -218,8 +221,8 @@ Woman.prototype = Object.create(Agent.prototype);
 Woman.prototype.constructor = Woman;
 Woman.prototype.imposePreference = function(){
 	// Supersede the preference list with a list of Man instances in descending order
-	for (var i = 0; i < this.Preference.length; i++){
-		this.prefList.push(this.world.manInstances[Number(this.Preference[i])-1]);
+	if (!(this.Preference.length == 1 && this.Preference[0] == "")){
+		for (var i = 0; i < this.Preference.length; i++){this.prefList.push(this.world.manInstances[Number(this.Preference[i])-1]);}
 	}
 }
 Woman.prototype.toString = function(){
