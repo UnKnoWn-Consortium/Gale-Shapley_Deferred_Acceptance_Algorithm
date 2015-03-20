@@ -113,17 +113,12 @@ World.prototype.main = function(){
 		if(self.document === undefined){ // Determine whether the object is created inside a Web Worker
 			postMessage(this.reportBuffer("Proposal"));
 			console.log(this.reportBuffer("Proposal").output);
-		}else{
-			console.log(this.reportBuffer("Proposal").output);
-		}
-		//if (this.caller !== window)postMessage(this.reportBuffer("Proposal"));
+		}else{console.log(this.reportBuffer("Proposal").output);}
 		for (var i = 0; i < this.womanInstances.length; i++){this.womanInstances[i].evaluate();}
 		if(self.document === undefined){ // Determine whether the object is created inside a Web Worker
 			postMessage(this.reportBuffer("Final"));
 			console.log(this.reportBuffer("Final").output);
-		}else{
-			console.log(this.reportBuffer("Final").output);
-		}
+		}else{console.log(this.reportBuffer("Final").output);}
 		this.tick();
 	}else if (this.mode == "F"){
 		for (var i = 0; i < this.womanInstances.length; i++){this.womanInstances[i].propose();}

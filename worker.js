@@ -23,6 +23,39 @@ onmessage = function(e) {
 			postMessage({output: date.toISOString() + " WORKER : ITERATION " + (g.steps+1) + " OUTPUT..."});
 			g.main();
 		}
+	}else if (command == "propose"){
+		if(typeof(g) === "undefined"){
+			postMessage({output: date.toISOString() + " WORKER : WORLD NOT FOUND"});
+			postMessage({output: date.toISOString() + " WORKER : Please press SETUP first"});
+		}else{
+			postMessage({output: date.toISOString() + " WORKER : ITERATION " + (g.steps+1) + " [PROPOSE] OUTPUT..."});
+			if (g.mode == "M"){
+				for (var i = 0; i < g.manInstances.length; i++){g.manInstances[i].propose();}
+				postMessage(g.reportBuffer("Proposal"));
+				console.log(g.reportBuffer("Proposal").output);
+			}else if (g.mode == "F"){
+				for (var i = 0; i < g.womanInstances.length; i++){g.womanInstances[i].propose();}
+				postMessage(g.reportBuffer("Proposal"));
+				console.log(g.reportBuffer("Proposal").output);
+			}
+		}
+	}else if (command == "evaluate"){
+		if(typeof(g) === "undefined"){
+			postMessage({output: date.toISOString() + " WORKER : WORLD NOT FOUND"});
+			postMessage({output: date.toISOString() + " WORKER : Please press SETUP first"});
+		}else{
+			postMessage({output: date.toISOString() + " WORKER : ITERATION " + (g.steps+1) + " [EVALUATE] OUTPUT..."});
+			if (g.mode == "M"){
+				for (var i = 0; i < g.womanInstances.length; i++){g.womanInstances[i].evaluate();}
+				postMessage(g.reportBuffer("Final"));
+				console.log(g.reportBuffer("Final").output);
+			}else if (g.mode == "F"){
+				for (var i = 0; i < g.manInstances.length; i++){g.manInstances[i].evaluate();}
+				postMessage(g.reportBuffer("Final"));
+				console.log(g.reportBuffer("Final").output);
+			}
+			g.tick();
+		}
 	}else if (command == "summary"){
 		if(typeof(g) === "undefined"){
 			postMessage({output: date.toISOString() + " WORKER : WORLD NOT FOUND"});

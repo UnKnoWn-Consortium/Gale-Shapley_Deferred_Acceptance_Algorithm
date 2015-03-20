@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="maximum-scale=1.0, user-scalable=no"/>
 <title>Gale-Shapley Deferred Acceptance Algorithm</title>
 <link href="css/style.css" rel="stylesheet" type="text/css" />
 <link href="css/introjs.css" rel="stylesheet" type="text/css" />
@@ -21,10 +22,10 @@
     <label for="cmn-toggle" data-on="M&nbsp;&nbsp;" data-off="&nbsp;&nbsp;&nbsp;&nbsp;F"></label>
     <h3>Man Proposing Mode</h3>
   </div>
-  <div>
+  <fieldset>
     <p>Number of Men : <input id="numMan" type="number" value=3 min=2 step=1></p>
     <p>Number of Women : <input id="numWoman" type="number" value=3 min=2 step=1></p>
-  </div>
+  </fieldset>
   <div id="prefList">
   	<fieldset class="pref man">
       <legend>Preference Order for Man 1 : </legend>
@@ -176,6 +177,17 @@
   <button id="setup">SETUP</button>
   <p>(2) Press <b>RUN ONCE</b> for advancing the algorithm for one step.</p>
   <button id="runOnce">RUN ONCE</button>
+  <fieldset id="runOnceDis">
+    <div><p><b>RUN ONCE</b> includes basically two child steps. 
+    <ol type="1">
+      <li>Proposers <b>propose</b></li>
+      <li>Receivers <b>evaluate</b></li>
+    </ol></p>
+    <p>So pressing <b>RUN ONCE</b> is equivalent to pressing <b>PROPOSE</b> once, then <b>EVALUATE</b> once. </p><div>
+    <button id="propose">PROPOSE</button>
+    <button id="evaluate" disabled>EVALUATE</button>
+    
+  </fieldset>
   <p>(3) Press <b>RUN</b> for running the algorithm till stop conditions fulfilled.</p>
   <button id="run">RUN</button>
   <p>(4) Press <b>SUMMARY</b> for a report on the current step.</p>
@@ -193,7 +205,6 @@
   <div id="graphContainer"></div>
 </fieldset>
 </div>
-
 <script>
 	var mode = "M";
 	var manArray = ["2,1,3", "1,2,3", "1,2,3"], womanArray= ["1,2,3", "3,1,2", "1,2,3"];
@@ -267,6 +278,16 @@
 		if (graphObj.edges.length > 0){network.setData(graphObj);}
 	});
 	$('#runOnce').on('click',function(){worker.postMessage({status:"runOnce"});});
+	$('#propose').on('click',function(){
+		worker.postMessage({status:"propose"});
+		$('#propose').prop('disabled', true);
+		$('#evaluate').prop('disabled', false);
+	});
+	$('#evaluate').on('click',function(){
+		worker.postMessage({status:"evaluate"});
+		$('#evaluate').prop('disabled', true);
+		$('#propose').prop('disabled', false);
+	});
 	$('#run').on('click',function(){worker.postMessage({status:"run"});});
 	$('#summary').on('click',function(){worker.postMessage({status:"summary"});});
 	$('#clearOutput').on('click',function(){
@@ -275,6 +296,8 @@
 		outputArea.scrollTop = outputArea.scrollHeight;
 	});
 	$('#setup').on('click', function(){
+		var numWoman = Number($('input#numWoman').val());
+		var numMan = Number($('input#numMan').val());
 		var prefM = [];
 		var prefF = [];
 		$('#prefList .pref.man').each(function(index) {
@@ -293,6 +316,8 @@
 		womanArray = prefF;
 		worker.postMessage({status:"setup", Mode: mode, ListM: manArray, ListF: womanArray});
 		$('fieldset#graph #iteration').html("ITERATION 00");
+		graphObj = updateGraph(numMan, numWoman, graphIndex);
+		network.setData(graphObj);
 	});
 	$('fieldset#inputField input#cmn-toggle').on('change', function(){
 		if (this.checked) {mode = "F";$('fieldset#inputField .switch h3').html("Woman Proposing Mode");}else {mode = "M";$('fieldset#inputField .switch h3').html("Man Proposing Mode");}

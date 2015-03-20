@@ -28,7 +28,11 @@ body {
 	margin-left: auto;
 }
 button {
-	width: 150px;
+	width: 156px;
+	height: 30px;
+	font-size: 16px;
+	font-weight: bold;
+	border-radius: 5px;
 }
 fieldset#inputField .switch h3 {
 	padding-left: 10px;
@@ -126,7 +130,7 @@ legend {
 	padding: 6px;
 }
 fieldset.pref legend {
-	font-size: 14px;
+	font-size: 16px;
 	font-weight: normal;
 	text-align: left;
 	padding: 6px;
@@ -143,6 +147,14 @@ fieldset#outputField {
 fieldset#control {
 	width: 350px;
 	text-align: center;
+}
+fieldset#control fieldset#runOnceDis{
+	margin-top: 10px;
+	margin-bottom: 0px;
+	text-align: justify;
+}
+fieldset#control fieldset#runOnceDis p{
+	margin-top: 5px;
 }
 fieldset#inputField {
 	
