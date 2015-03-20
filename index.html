@@ -1,0 +1,350 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Gale-Shapley Deferred Acceptance Algorithm</title>
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<link href="css/introjs.css" rel="stylesheet" type="text/css" />
+<link href="css/vis.min.css" rel="stylesheet" type="text/css" />
+<link href='http://fonts.googleapis.com/css?family=Lato:400italic,400,900,900italic' rel='stylesheet' type='text/css' />
+<script type="text/javascript" src="script/jquery-2.1.3.min.js"></script>
+<script type="text/javascript" src="script/intro.js"></script>
+<script type="text/javascript" src="script/vis.min.js"></script>
+</head>
+<body>
+<div class="container">
+<h1>Gale-Shapley Deferred Acceptance Algorithm</h1>
+<fieldset id="inputField">
+  <legend>Input</legend>
+  <div class="switch">
+    <input id="cmn-toggle" class="cmn-toggle cmn-toggle-round" type="checkbox">
+    <label for="cmn-toggle" data-on="M&nbsp;&nbsp;" data-off="&nbsp;&nbsp;&nbsp;&nbsp;F"></label>
+    <h3>Man Proposing Mode</h3>
+  </div>
+  <div>
+    <p>Number of Men : <input id="numMan" type="number" value=3 min=2 step=1></p>
+    <p>Number of Women : <input id="numWoman" type="number" value=3 min=2 step=1></p>
+  </div>
+  <div id="prefList">
+  	<div class="pref man">Preference Order for Man 1 : <br>
+  	  <select>
+        <option value=""></option>
+        <option value="1">Woman 1</option>
+        <option value="2" selected>Woman 2</option>
+        <option value="3">Woman 3</option>
+      </select>
+       > 
+      <select>
+        <option value=""></option>
+        <option value="1" selected>Woman 1</option>
+        <option value="2">Woman 2</option>
+        <option value="3">Woman 3</option>
+      </select>
+       >
+      <select>
+        <option value=""></option>
+        <option value="1">Woman 1</option>
+        <option value="2">Woman 2</option>
+        <option value="3" selected>Woman 3</option>
+      </select>
+    </div>
+    <div class="pref man">Preference Order for Man 2 : <br>
+  	  <select>
+        <option value=""></option>
+        <option value="1" selected>Woman 1</option>
+        <option value="2">Woman 2</option>
+        <option value="3">Woman 3</option>
+      </select>
+       > 
+      <select>
+        <option value=""></option>
+        <option value="1">Woman 1</option>
+        <option value="2" selected>Woman 2</option>
+        <option value="3">Woman 3</option>
+      </select>
+       >
+      <select>
+        <option value=""></option>
+        <option value="1">Woman 1</option>
+        <option value="2">Woman 2</option>
+        <option value="3" selected>Woman 3</option>
+      </select>
+    </div>
+    <div class="pref man">Preference Order for Man 3 : <br>
+  	  <select>
+        <option value=""></option>
+        <option value="1" selected>Woman 1</option>
+        <option value="2">Woman 2</option>
+        <option value="3">Woman 3</option>
+      </select>
+       > 
+      <select>
+        <option value=""></option>
+        <option value="1">Woman 1</option>
+        <option value="2" selected>Woman 2</option>
+        <option value="3">Woman 3</option>
+      </select>
+       >
+      <select>
+        <option value=""></option>
+        <option value="1">Woman 1</option>
+        <option value="2">Woman 2</option>
+        <option value="3" selected>Woman 3</option>
+      </select>
+    </div>
+    <div class="pref woman">Preference Order for Woman 1 : <br>
+      <select>
+        <option value=""></option>
+        <option value="1" selected>Man 1</option>
+        <option value="2">Man 2</option>
+        <option value="3">Man 3</option>
+      </select>
+       > 
+      <select>
+        <option value=""></option>
+        <option value="1">Man 1</option>
+        <option value="2" selected>Man 2</option>
+        <option value="3">Man 3</option>
+      </select>
+       >
+      <select>
+        <option value=""></option>
+        <option value="1">Man 1</option>
+        <option value="2">Man 2</option>
+        <option value="3" selected>Man 3</option>
+      </select>
+    </div>
+    <div class="pref woman">Preference Order for Woman 2 : <br>
+      <select>
+        <option value=""></option>
+        <option value="1">Man 1</option>
+        <option value="2">Man 2</option>
+        <option value="3" selected>Man 3</option>
+      </select>
+       > 
+      <select>
+        <option value=""></option>
+        <option value="1" selected>Man 1</option>
+        <option value="2">Man 2</option>
+        <option value="3">Man 3</option>
+      </select>
+       >
+      <select>
+        <option value=""></option>
+        <option value="1">Man 1</option>
+        <option value="2" selected>Man 2</option>
+        <option value="3">Man 3</option>
+      </select>
+    </div>
+    <div class="pref woman">Preference Order for Woman 3 : <br>
+      <select>
+        <option value=""></option>
+        <option value="1" selected>Man 1</option>
+        <option value="2">Man 2</option>
+        <option value="3">Man 3</option>
+      </select>
+       > 
+      <select>
+        <option value=""></option>
+        <option value="1">Man 1</option>
+        <option value="2" selected>Man 2</option>
+        <option value="3">Man 3</option>
+      </select>
+       >
+      <select>
+        <option value=""></option>
+        <option value="1">Man 1</option>
+        <option value="2">Man 2</option>
+        <option value="3" selected>Man 3</option>
+      </select>
+    </div>
+  </div>
+  <div class="inputControl">
+    <button id="default"> Load Default</button>
+    <button id="importTXT" disabled>Import from TXT</button>
+  </div>
+</fieldset>
+<fieldset id="control">
+  <legend>Control</legend>
+  <p>(1) Press <b>SETUP</b> for resetting or initializing.</p>
+  <button id="setup">SETUP</button>
+  <p>(2) Press <b>RUN ONCE</b> for advancing the algorithm for one step.</p>
+  <button id="runOnce">RUN ONCE</button>
+  <p>(3) Press <b>RUN</b> for running the algorithm till stop conditions fulfilled.</p>
+  <button id="run">RUN</button>
+  <p>(4) Press <b>SUMMARY</b> for a report on the current step.</p>
+  <button id="summary">SUMMARY</button>
+  <p>(5) Press <b>CLEAR OUTPUT</b> to reset the output area.</p>
+  <button id="clearOutput">CLEAR OUTPUT</button>
+</fieldset>
+<fieldset id="outputField">
+  <legend>Output</legend>
+  <textarea id="output" rows="25" cols="75" readonly></textarea>
+</fieldset>
+<fieldset id="graph">
+  <legend>Graphical Representation</legend>
+  <div id="graphContainer"></div>
+</fieldset>
+</div>
+
+<script>
+	var mode = "M";
+	var manArray = ["2,1,3", "1,2,3", "1,2,3"], womanArray= ["1,2,3", "3,1,2", "1,2,3"];
+	var graphIndex = {
+		'Man 1': 1,
+        'Man 2': 2,
+        'Man 3': 3,
+		'Woman 1': 4,
+        'Woman 2': 5,
+        'Woman 3': 6
+	};
+	var graphObj = {
+		nodes : [
+        	{id: 1, label: 'Man 1', group: 'man'},
+        	{id: 2, label: 'Man 2', group: 'man'},
+        	{id: 3, label: 'Man 3', group: 'man'},
+			{id: 4, label: 'Woman 1', group: 'woman'},
+        	{id: 5, label: 'Woman 2', group: 'woman'},
+        	{id: 6, label: 'Woman 3', group: 'woman'}
+		],
+		edges : []
+	}
+	var graphOptions = {
+        stabilize: false,
+        edges: {
+          width: 2,
+          style: 'arrow',
+          color: 'gray'
+        },
+        physics: {
+			barnesHut:{springLength:200}
+		},
+		groups: {
+          man: {
+            color: 'blue',
+            fontColor: 'white',
+            fontSize: 18
+          }, 
+		  woman: {
+			  color: 'red',
+			  fontColor: 'white',
+			  fontSize: 18
+		  }
+		 }
+	};
+	var outputArea = document.getElementById("output");
+	var graphArea = document.getElementById("graphContainer");
+	var worker = new Worker("worker.js");
+	var network = new vis.Network(graphArea, graphObj, graphOptions);
+	$("#output").val("Gale-Shapley Deferred Acceptance Algorithm for Two-Sided Matching");
+	worker.addEventListener("message", function(e){
+		$("#output").val($("#output").val() + "\n" + e.data.output);
+		outputArea.scrollTop = outputArea.scrollHeight;
+		var temp_edges = [];
+		if (e.data.edges !== undefined){
+			for (var i = 0; i < e.data.edges.length; i++){
+				var temp = e.data.edges[i];
+				temp.from = graphIndex[e.data.edges[i].from];
+				temp.to = graphIndex[e.data.edges[i].to];
+				temp_edges.push(temp);
+			}
+		}
+		graphObj.edges = temp_edges;
+		if (graphObj.edges.length > 0){network.setData(graphObj);}
+	});
+	$('#runOnce').on('click',function(){worker.postMessage({status:"runOnce"});});
+	$('#run').on('click',function(){worker.postMessage({status:"run"});});
+	$('#summary').on('click',function(){worker.postMessage({status:"summary"});});
+	$('#clearOutput').on('click',function(){
+		$("#output").val("");
+		$("#output").val("Gale-Shapley Deferred Acceptance Algorithm for Two-Sided Matching");
+		outputArea.scrollTop = outputArea.scrollHeight;
+	});
+	$('#setup').on('click', function(){
+		var prefM = [];
+		var prefF = [];
+		$('#prefList .pref.man').each(function(index) {
+			var order = "";
+            $(this).find('select').each(function(index, element) {if (String($(this).val()) != ""){order += String($(this).val()) + ",";}});
+			order = order.substring(0, order.length-1);
+			prefM.push(order);
+        });
+		$('#prefList .pref.woman').each(function(index) {
+			var order = "";
+            $(this).find('select').each(function(index, element) {if (String($(this).val()) != ""){order += String($(this).val()) + ",";}});
+			order = order.substring(0, order.length-1);
+			prefF.push(order);
+        });
+		manArray = prefM;
+		womanArray = prefF;
+		worker.postMessage({status:"setup", Mode: mode, ListM: manArray, ListF: womanArray});
+		
+	});
+	$('fieldset#inputField input#cmn-toggle').on('change', function(){
+		if (this.checked) {mode = "F";$('fieldset#inputField .switch h3').html("Woman Proposing Mode");}else {mode = "M";$('fieldset#inputField .switch h3').html("Man Proposing Mode");}
+	});
+	$('input#numMan').on('change', updateInput);
+	$('input#numWoman').on('change', updateInput);
+	function updateInput(){
+		var numWoman = Number($('input#numWoman').val());
+		var numMan = Number($('input#numMan').val());
+		var result = contentHelper(numMan, "man");
+		var recastDiv = result.recastDiv;
+		var recastSelectM = result.recastSelect;
+		var recastOptionsM = result.recastOptions;
+		var result = contentHelper(numWoman, "woman");
+		recastDiv += result.recastDiv;
+		var recastSelectF = result.recastSelect;
+		var recastOptionsF = result.recastOptions;
+		$('#prefList').empty();
+		$('#prefList').append(recastDiv);
+		appendHelper(recastSelectF, recastOptionsF, recastSelectM, recastOptionsM);
+		graphObj = updateGraph(numMan, numWoman, graphIndex);
+		network.setData(graphObj);
+	}
+	function contentHelper(count, classT){
+		var divT = "", selectT = "";
+		var temp = classT[0].toUpperCase() + classT.slice(1);
+		var optionT = '<option value=""></option>';
+		for (var i = 1; i < count + 1; i++){
+			divT += '<div class="pref ' + classT + '">Preference Order for ' + temp + ' '+ i +' : <br> </div>';
+			selectT += ' > <select></select>';
+			optionT += '<option value="'+ i +'">'+ temp +' ' + i + '</option>';
+		}
+		var package = {recastDiv : divT, recastSelect : selectT, recastOptions : optionT};
+		return package;
+	}
+	function appendHelper(recastSelectF, recastOptionsF, recastSelectM, recastOptionsM){
+		recastSelectM = recastSelectM.slice(3);
+		recastSelectF = recastSelectF.slice(3);
+		$('.pref.man').append(recastSelectF);
+		$('.pref.man select').append(recastOptionsF);
+		$('.pref.woman').append(recastSelectM);
+		$('.pref.woman select').append(recastOptionsM);
+	}
+	function updateGraph(countM, countF, index){
+		var data = {};
+		data.nodes = [];
+		data.edges = [];
+		for (var i = 1; i < countM + 1; i++){
+			var nodeObj = {};
+			nodeObj.id = i;
+			nodeObj.label = "Man " + String(i);
+			nodeObj.group = 'man';
+			data.nodes.push(nodeObj);
+			index[nodeObj.label] = i;
+		}
+		for (var i = countM + 1; i < (countM + countF) + 1; i++){
+			var nodeObj = {};
+			nodeObj.id = i;
+			nodeObj.label = "Woman " + String(i - countM);
+			nodeObj.group = 'woman';
+			data.nodes.push(nodeObj);
+			index[nodeObj.label] = i;
+		}
+		return data;
+	}
+	
+</script>
+</body>
+</html>
