@@ -1,20 +1,24 @@
 <!doctype html>
 <html>
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="maximum-scale=1.0, user-scalable=no"/>
-<title>Gale-Shapley Deferred Acceptance Algorithm</title>
-<link href="css/style.css" rel="stylesheet" type="text/css" />
-<link href="css/introjs.css" rel="stylesheet" type="text/css" />
-<link href="css/vis.min.css" rel="stylesheet" type="text/css" />
-<link href='http://fonts.googleapis.com/css?family=Lato:400italic,400,900,900italic' rel='stylesheet' type='text/css' />
-<script type="text/javascript" src="script/jquery-2.1.3.min.js"></script>
-<script type="text/javascript" src="script/intro.js"></script>
-<script type="text/javascript" src="script/vis.min.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="maximum-scale=1.0, user-scalable=no"/>
+  <title>Gale-Shapley Deferred Acceptance Algorithm</title>
+  <link href="css/style.css" rel="stylesheet" type="text/css" />
+  <link href="css/introjs.css" rel="stylesheet" type="text/css" />
+  <link href="css/vis.min.css" rel="stylesheet" type="text/css" />
+  <link href='http://fonts.googleapis.com/css?family=Lato:400italic,400,900,900italic' rel='stylesheet' type='text/css' />
+  <script type="text/javascript" src="script/jquery-2.1.3.min.js"></script>
+  <script type="text/javascript" src="script/intro.js"></script>
+  <script type="text/javascript" src="script/vis.min.js"></script>
 </head>
 <body>
+<div class="header">
+  <h1>Gale-Shapley Deferred Acceptance Algorithm</h1>
+  <div class="pin top left"></div><div class="pin top right"></div><div class="pin bottom left"></div><div class="pin bottom right"></div>
+</div>
 <div class="container">
-<h1>Gale-Shapley Deferred Acceptance Algorithm</h1>
+<div class="pin top left"></div><div class="pin top right"></div><div class="pin bottom left"></div><div class="pin bottom right"></div>
 <fieldset id="inputField">
   <legend>Input</legend>
   <div class="switch">
@@ -167,7 +171,7 @@
     </fieldset>
   </div>
   <div class="inputControl">
-    <button id="default"> Load Default</button>
+    <button id="default"> Load 3v3 Default</button>
     <button id="importTXT" disabled>Import from TXT</button>
   </div>
 </fieldset>
@@ -184,8 +188,10 @@
       <li>Receivers <b>evaluate</b></li>
     </ol></p>
     <p>So pressing <b>RUN ONCE</b> is equivalent to pressing <b>PROPOSE</b> once, then <b>EVALUATE</b> once. </p><div>
-    <button id="propose">PROPOSE</button>
-    <button id="evaluate" disabled>EVALUATE</button>
+    <div style="text-align: center;">
+      <button id="propose">PROPOSE</button>
+      <button id="evaluate" disabled>EVALUATE</button>
+    </div>
   </fieldset>
   <p>(3) Press <b>RUN</b> for running the algorithm till stop conditions fulfilled.</p>
   <button id="run">RUN</button>
@@ -205,6 +211,7 @@
 </fieldset>
 </div>
 <div class="footer">
+  <div class="pin top left"></div><div class="pin top right"></div><div class="pin bottom left"></div><div class="pin bottom right"></div>
   <div id="powered">
     <h3>Powered by: </h3>
     <a href="http://visjs.org/"><img src="img/vis_logo.png" alt="vis.js logo" height="150" width="160"></a>
@@ -290,12 +297,14 @@
 	$('#runOnce').on('click',function(){worker.postMessage({status:"runOnce"});});
 	$('#propose').on('click',function(){
 		worker.postMessage({status:"propose"});
+		$('#run').prop('disabled', true);
 		$('#runOnce').prop('disabled', true);
 		$('#propose').prop('disabled', true);
 		$('#evaluate').prop('disabled', false);
 	});
 	$('#evaluate').on('click',function(){
 		worker.postMessage({status:"evaluate"});
+		$('#run').prop('disabled', false);
 		$('#runOnce').prop('disabled', false);
 		$('#evaluate').prop('disabled', true);
 		$('#propose').prop('disabled', false);
@@ -399,7 +408,6 @@
 		}
 		return data;
 	}
-	
 </script>
 </body>
 </html>

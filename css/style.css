@@ -5,7 +5,6 @@ body {
 	margin-bottom: 18px;
 	padding: 0;
 }
-
 .container {
 	position: relative;
 	width: 95%;
@@ -14,14 +13,28 @@ body {
 	min-width: 728px;
 	margin-left: auto;
 	margin-right: auto;
-	padding: 15px;
+	padding: 35px 15px;
 	border-radius: 4px;
 }
-.container h1 {
+.header {
+	position: relative;
+	width: 95%;
+	background: rgba(255,255,255,1);
+	max-width: 960px;
+	min-width: 728px;
+	margin-bottom: 25px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 15px;
+	border-radius: 4px;
+	text-align: center;
+}
+.header h1 {
 	text-align: center;
 	padding: 4px;
-	border: solid 2px rgba(85,85,85,1);
+	/*border: solid 2px rgba(85,85,85,1);*/
 	border-radius: 4px;
+	font-size: 58px;
 	width: 90%;
 	margin-right: auto;
 	margin-left: auto;
@@ -45,6 +58,28 @@ body {
 .footer div {
 	display: inline-block;
 }
+.pin {
+	position: absolute;
+	border-radius: 50%;
+	background-color: rgba(248,248,248,0.8);
+	width: 20px;
+	height: 20px;
+	margin: 0 auto;
+	margin-top: 2px;
+	box-shadow: 0 3px 6px rgba(0,0,0,.55);
+}
+.pin.left {
+	left: 10px;
+}
+.pin.right {
+	right: 10px;
+}
+.pin.top {
+	top: 10px;
+}
+.pin.bottom {
+	bottom: 10px;
+}
 .footer #designed img {
 	margin-top: 40px;
 	margin-left: 20px;
@@ -57,11 +92,12 @@ body {
 	font-style: italic;
 }
 button {
-	width: 156px;
+	width: 165px;
 	height: 30px;
 	font-size: 16px;
 	font-weight: bold;
 	border-radius: 5px;
+	text-align: center;
 }
 fieldset#inputField .switch h3 {
 	padding-left: 10px;
@@ -147,7 +183,7 @@ fieldset {
 	border-width: 1px;
 	border-color: rgba(136,136,136,1);
 	border-style: solid;
-	box-shadow: 1px 1px 1px rgba(119,119,119,1); 
+	box-shadow: 1px 1px 1px rgba(119,119,119,1);
 }
 legend {
 	font-size: 20px;
@@ -173,7 +209,7 @@ fieldset#outputField {
 	max-width: 600px;
 }
 fieldset#control {
-	width: 350px;
+	width: 380px;
 	text-align: center;
 }
 fieldset#control fieldset#runOnceDis {
