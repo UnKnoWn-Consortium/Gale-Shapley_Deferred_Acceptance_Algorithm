@@ -186,7 +186,6 @@
     <p>So pressing <b>RUN ONCE</b> is equivalent to pressing <b>PROPOSE</b> once, then <b>EVALUATE</b> once. </p><div>
     <button id="propose">PROPOSE</button>
     <button id="evaluate" disabled>EVALUATE</button>
-    
   </fieldset>
   <p>(3) Press <b>RUN</b> for running the algorithm till stop conditions fulfilled.</p>
   <button id="run">RUN</button>
@@ -204,6 +203,17 @@
   <div id="iteration">ITERATION 00</div>
   <div id="graphContainer"></div>
 </fieldset>
+</div>
+<div class="footer">
+  <div id="powered">
+    <h3>Powered by: </h3>
+    <a href="http://visjs.org/"><img src="img/vis_logo.png" alt="vis.js logo" height="150" width="160"></a>
+    <a href="http://jquery.com/"><img src="img/jquery_logo.png" alt="jquery logo" height="130" width="175.5"></a>
+  </div>
+  <div id="designed">
+    <h3>Designed by: </h3>
+    <img src="img/unknown_logo.png" alt="unknown logo" height="80" width="275">
+  </div>
 </div>
 <script>
 	var mode = "M";
@@ -280,11 +290,13 @@
 	$('#runOnce').on('click',function(){worker.postMessage({status:"runOnce"});});
 	$('#propose').on('click',function(){
 		worker.postMessage({status:"propose"});
+		$('#runOnce').prop('disabled', true);
 		$('#propose').prop('disabled', true);
 		$('#evaluate').prop('disabled', false);
 	});
 	$('#evaluate').on('click',function(){
 		worker.postMessage({status:"evaluate"});
+		$('#runOnce').prop('disabled', false);
 		$('#evaluate').prop('disabled', true);
 		$('#propose').prop('disabled', false);
 	});
@@ -296,6 +308,9 @@
 		outputArea.scrollTop = outputArea.scrollHeight;
 	});
 	$('#setup').on('click', function(){
+		$('#runOnce').prop('disabled', false);
+		$('#evaluate').prop('disabled', true);
+		$('#propose').prop('disabled', false);
 		var numWoman = Number($('input#numWoman').val());
 		var numMan = Number($('input#numMan').val());
 		var prefM = [];
