@@ -269,7 +269,7 @@
 	};
 	var outputArea = document.getElementById("output");
 	var graphArea = document.getElementById("graphContainer");
-	var worker = new Worker("worker.js");
+	var worker = new Worker("script/worker.js");
 	var network = new vis.Network(graphArea, graphObj, graphOptions);
 	$("#output").val("Gale-Shapley Deferred Acceptance Algorithm for Two-Sided Matching");
 	worker.addEventListener("message", function(e){
